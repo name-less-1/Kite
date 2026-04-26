@@ -6,7 +6,7 @@ export default function SchemesView({ onApply, stateFilter }) {
 	const [schemes, setSchemes] = useState([]);
 	const [cat, setCat] = useState('All');
 	useEffect(() => {
-		fetch(`/api/schemes?state=${stateFilter}`)
+		fetch(`https://kite-3cun.onrender.com/api/schemes?state=${stateFilter}`)
 			.then(res => res.json())
 			.then(data => setSchemes(data));
 	}, [stateFilter]);
