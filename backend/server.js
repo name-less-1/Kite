@@ -23,7 +23,7 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-
+console.log("LOCAL URI:", process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
