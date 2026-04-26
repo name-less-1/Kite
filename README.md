@@ -8,8 +8,8 @@ KITE is a civic-tech platform built for the tech-savvy youth of India. It transf
 
 ## Live Demo
 
-🌐 **Frontend:** [kite-orpin.vercel.app](https://kite-orpin.vercel.app)  
-⚙️ **Backend API:** [kite-3cun.onrender.com](https://kite-3cun.onrender.com)
+🌐 **Frontend:** https://kite-orpin.vercel.app
+⚙️ **Backend API:** https://kite-3cun.onrender.com
 
 ---
 
@@ -18,44 +18,54 @@ KITE is a civic-tech platform built for the tech-savvy youth of India. It transf
 ```
 kite/
 ├── frontend/   # React app (Create React App)
-└── backend/    # Express REST API (Node.js)
+└── backend/    # Express REST API with MongoDB
 ```
 
 ---
 
 ## Features
 
-- **Scheme Explorer** — Browse National and State-level government schemes, filter by category and state
-- **Scholarship Finder** — Find active scholarships based on your state and category
-- **Legislative View** — Stay updated on recent laws and acts
-- **Jan-Seva** — Track civic complaints and local alerts
-- **Antariksh** — ISRO missions and India's space programme
-- **Raksha** — India's defense spotlight and recruitment
-- **Jobs** — Government job listings
+* **Scheme Explorer** — Browse National and State-level government schemes, filter by category and state
+* **Scholarship Finder** — Find active scholarships based on your state and category
+* **Legislative View** — Stay updated on recent laws and acts
+* **Jan-Seva** — Track civic complaints and submit new ones
+* **Antariksh** — ISRO missions and India's space programme
+* **Raksha** — India's defense spotlight and recruitment
+* **Jobs** — Government job listings
+* **Persistent Data** — All data stored and fetched from MongoDB Atlas via APIs
 
 ---
 
 ## Tech Stack
 
-| Layer | Tech |
-|---|---|
-| Frontend | React 18, vanilla CSS-in-JS |
-| Backend | Node.js, Express |
-| Deployment | Vercel (frontend), Render (backend) |
+| Layer      | Tech                                 |
+| ---------- | ------------------------------------ |
+| Frontend   | React 18, vanilla CSS-in-JS          |
+| Backend    | Node.js, Express, MongoDB (Mongoose) |
+| Database   | MongoDB Atlas                        |
+| Deployment | Vercel (frontend), Render (backend)  |
+
+---
+
+## Architecture
+
+Frontend (React) → Fetch API → Express Backend → MongoDB Atlas
 
 ---
 
 ## Running Locally
 
 ### Backend
+
 ```bash
 cd backend
 npm install
-node server.js
+npm run dev
 # runs on http://localhost:5000
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
@@ -69,31 +79,31 @@ npm start
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/schemes` | All schemes (filter: `?state=Punjab`) |
-| GET | `/api/jobs` | Government job listings |
-| GET | `/api/laws` | Recent laws and acts |
-| GET | `/api/complaints` | Civic complaint tracker |
+| Method | Endpoint          | Description                                             |
+| ------ | ----------------- | ------------------------------------------------------- |
+| GET    | `/api/schemes`    | All schemes (filter: `?state=Punjab&category=Students`) |
+| GET    | `/api/jobs`       | Government job listings                                 |
+| GET    | `/api/laws`       | Recent laws and acts                                    |
+| GET    | `/api/complaints` | Civic complaint tracker                                 |
+| POST   | `/api/complaints` | Submit a new complaint                                  |
 
 ---
 
 ## Team
 
-| Role | Work |
-|---|---|
-| Frontend | UI/UX, React components, views |
-| Backend | Express API, state filtering, deployment |
+| Role     | Work                                         |
+| -------- | -------------------------------------------- |
+| Frontend | UI/UX, React components, views               |
+| Backend  | Express API, MongoDB integration, deployment |
 
 ---
 
 ## Roadmap
 
-- [ ] MongoDB integration (replace mock data)
-- [ ] User auth (JWT) — save schemes, personalized feed
-- [ ] Eligibility matcher
-- [ ] Hindi / Punjabi / Hinglish language support
-- [ ] Mobile app
+* [ ] User authentication (JWT) — save schemes, personalized feed
+* [ ] Eligibility matcher
+* [ ] Hindi / Punjabi / Hinglish language support
+* [ ] Mobile app
 
 ---
 
