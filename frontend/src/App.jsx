@@ -58,7 +58,7 @@ export default function App() {
       <Sidebar active={activeNav} setActive={setActiveNav} />
 
       <div style={{ flex:1, display:'flex', flexDirection:'column', overflow:'hidden', minWidth:0 }}>
-        <Header lang={lang} setLang={setLang} onSearch={() => setSearchOpen(true)} />
+        <Header lang={lang} setLang={setLang} onSearch={() => setSearchOpen(true)} onHome={() => setActiveNav('home')} />
         <StatePills selected={stateFilter} onSelect={setStateFilt} />
         <CityAlert />
         <div style={{ flex:1, overflowY:'auto', overflowX:'hidden' }}>
