@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const API = 'https://kite-3cun.onrender.com';
+import { API_URL } from '../data';
 
 export default function LoginView({ onLogin, onSwitch }) {
   const [email, setEmail]       = useState('');
@@ -13,7 +13,7 @@ export default function LoginView({ onLogin, onSwitch }) {
     if (!email || !password) return setError('All fields required');
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/auth/login`, {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

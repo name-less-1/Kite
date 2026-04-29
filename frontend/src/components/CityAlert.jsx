@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-const API = 'https://kite-3cun.onrender.com';
+import { API_URL } from '../data';
 
 export default function CityAlert() {
   const [alerts, setAlerts] = useState([]);
   const [idx, setIdx]       = useState(0);
 
   useEffect(() => {
-    fetch(`${API}/api/alerts`)
+    fetch(`${API_URL}/api/alerts`)
       .then(r => r.json())
       .then(data => setAlerts(data))
       .catch(() => {});

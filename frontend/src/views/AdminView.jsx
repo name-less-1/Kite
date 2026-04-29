@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URL } from '../data';
 
 export default function AdminView({ token }) {
   const [schemes, setSchemes] = useState([]);
@@ -14,7 +15,7 @@ export default function AdminView({ token }) {
   const fetchSchemes = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/schemes');
+      const res = await fetch(`${API_URL}/api/schemes`);
       const data = await res.json();
       setSchemes(data);
     } catch (err) {
@@ -55,7 +56,7 @@ export default function AdminView({ token }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const method = editingId ? 'PUT' : 'POST';
-    const url = editingId ? `/api/schemes/${editingId}` : '/api/schemes';
+    const url = editingId ? `${API_URL}/api/schemes/${editingId}` : `${API_URL}/api/schemes`;
 
     try {
       const res = await fetch(url, {
@@ -82,7 +83,7 @@ export default function AdminView({ token }) {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this scheme?')) return;
     try {
-      const res = await fetch(`/api/schemes/${id}`, {
+      const res = await fetch(`${API_URL}/api/schemes/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

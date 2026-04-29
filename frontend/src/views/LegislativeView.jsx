@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API = 'https://kite-3cun.onrender.com';
+import { API_URL } from '../data';
 const STATUS_STYLE = { 'Enacted':{bg:'#064e3b',color:'#10b981'}, 'In Force':{bg:'#064e3b',color:'#10b981'}, 'Active':{bg:'#1e3a5f',color:'#60a5fa'} };
 
 export default function LegislativeView() {
@@ -8,7 +8,7 @@ export default function LegislativeView() {
   const [laws, setLaws]         = useState([]);
 
   useEffect(() => {
-    fetch(`${API}/api/laws`)
+    fetch(`${API_URL}/api/laws`)
       .then(r => r.json())
       .then(data => setLaws(data))
       .catch(() => {});

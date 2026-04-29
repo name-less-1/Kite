@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { STATES } from '../data';
-
-const API = 'https://kite-3cun.onrender.com';
+import { STATES, API_URL } from '../data';
 
 export default function RegisterView({ onLogin, onSwitch }) {
   const [name, setName]         = useState('');
@@ -18,7 +16,7 @@ export default function RegisterView({ onLogin, onSwitch }) {
     if (password.length < 6) return setError('Password must be at least 6 characters');
     setLoading(true);
     try {
-      const res = await fetch(`${API}/api/auth/register`, {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, state, adminCode }),

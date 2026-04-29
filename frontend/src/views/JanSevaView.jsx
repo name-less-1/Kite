@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { STATUS_COLOR } from '../data';
-
-const API = 'https://kite-3cun.onrender.com';
+import { STATUS_COLOR, API_URL } from '../data';
 
 const WASTE_BINS = [
   { color:'#16a34a', bg:'#14532d', border:'#166534', label:'Green Bin', title:'Wet / Organic', items:['Food scraps & leftovers','Vegetable & fruit peels','Leaves & garden waste','Eggshells','Tea & coffee grounds'] },
@@ -34,7 +32,7 @@ export default function JanSevaView({ user, token, onLoginRequest }) {
   const [error, setError]       = useState('');
 
   useEffect(() => {
-    fetch(`${API}/api/complaints`)
+    fetch(`${API_URL}/api/complaints`)
       .then(r => r.json())
       .then(data => setComplaints(data))
       .catch(() => {});
@@ -47,7 +45,7 @@ export default function JanSevaView({ user, token, onLoginRequest }) {
     setSubmitting(true);
     setError('');
     try {
-      const res = await fetch(`${API}/api/complaints`, {
+      const res = await fetch(`${API_URL}/api/complaints`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ category: issueType, location: location || 'Location not provided', description: desc }),

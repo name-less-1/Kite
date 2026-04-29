@@ -1,6 +1,6 @@
 import { ISRO_DATA, INVENTIONS } from '../data';
 
-const STATUS_STYLE = { 'Operational':{bg:'#064e3b',color:'#10b981'}, 'Launched 2024':{bg:'#064e3b',color:'#10b981'}, '2025 Launch':{bg:'#451a03',color:'#f59e0b'}, '2026 Planned':{bg:'#1e3a5f',color:'#60a5fa'}, '2028 Planned':{bg:'#1e3a5f',color:'#60a5fa'} };
+const STATUS_STYLE = { 'Operational':{bg:'#064e3b',color:'#10b981'}, 'Launched 2024':{bg:'#064e3b',color:'#10b981'}, '2026 Launch':{bg:'#451a03',color:'#f59e0b'}, '2027 Planned':{bg:'#1e3a5f',color:'#60a5fa'}, '2028 Planned':{bg:'#1e3a5f',color:'#60a5fa'} };
 
 export default function AntarikshView() {
   return (
@@ -32,7 +32,7 @@ export default function AntarikshView() {
         <div style={{ fontSize:11, fontWeight:700, textTransform:'uppercase', letterSpacing:2, color:'#818cf8', marginBottom:10 }}>🚀 Gaganyaan Deep Dive</div>
         <h3 style={{ margin:'0 0 10px', fontSize:16, fontWeight:800, color:'#e4e4e7' }}>India's Human Spaceflight Mission</h3>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(140px,1fr))', gap:8 }}>
-          {[['Crew','3 Astronauts'],['Orbit','400 km LEO'],['Duration','3 Days'],['Vehicle','LVM3 Rocket'],['Module','Crew Module + ESM'],['Year','2025']].map(([k,v]) => (
+          {[['Crew','3 Astronauts'],['Orbit','400 km LEO'],['Duration','3 Days'],['Vehicle','LVM3 Rocket'],['Module','Crew Module + ESM'],['Year','2026']].map(([k,v]) => (
             <div key={k} style={{ background:'rgba(255,255,255,0.05)', borderRadius:8, padding:'8px 10px' }}>
               <div style={{ fontSize:10, color:'#71717a', marginBottom:2 }}>{k}</div>
               <div style={{ fontSize:13, fontWeight:700, color:'#818cf8' }}>{v}</div>

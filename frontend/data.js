@@ -28,8 +28,8 @@ export const LAWS = [
 ];
 
 export const ISRO_DATA = [
-  { mission:'Gaganyaan',       status:'2025 Launch',   detail:"India's first crewed spaceflight — 3 astronauts to 400 km orbit",                        icon:'🚀' },
-  { mission:'Chandrayaan-4',   status:'2026 Planned',  detail:'Lunar sample return mission — bringing moon rock back to Earth for analysis',              icon:'🌕' },
+  { mission:'Gaganyaan',       status:'2026 Launch',   detail:"India's first crewed spaceflight — 3 astronauts to 400 km orbit",                        icon:'🚀' },
+  { mission:'Chandrayaan-4',   status:'2027 Planned',  detail:'Lunar sample return mission — bringing moon rock back to Earth for analysis',              icon:'🌕' },
   { mission:'NISAR Satellite', status:'Launched 2024', detail:'NASA-ISRO joint Earth observation satellite for climate & disaster monitoring',            icon:'🛰️' },
   { mission:'Shukrayaan-1',    status:'2028 Planned',  detail:"India's Venus orbiter — studying the planet's thick toxic atmosphere",                     icon:'🪐' },
   { mission:'Aditya-L1',       status:'Operational',   detail:"Solar observation satellite studying sun's corona from the Lagrange-1 point",              icon:'☀️' },
@@ -52,11 +52,11 @@ export const DEFENSE_DATA = [
 ];
 
 export const RECRUITMENT = [
-  { exam:'NDA I 2025',    date:'Apr 13, 2025', status:'Closed'    },
-  { exam:'CDS I 2025',    date:'Apr 13, 2025', status:'Closed'    },
-  { exam:'NDA II 2025',   date:'Sep 2025',     status:'Open Soon' },
+  { exam:'NDA I 2026',    date:'Apr 13, 2026', status:'Closed'    },
+  { exam:'CDS I 2026',    date:'Apr 13, 2026', status:'Closed'    },
+  { exam:'NDA II 2026',   date:'Sep 2026',     status:'Open Soon' },
   { exam:'Agniveer Army', date:'Rolling',      status:'Open'      },
-  { exam:'Agniveer Navy', date:'May 2025',     status:'Open'      },
+  { exam:'Agniveer Navy', date:'May 2026',     status:'Open'      },
 ];
 
 export const CITY_ALERTS = [

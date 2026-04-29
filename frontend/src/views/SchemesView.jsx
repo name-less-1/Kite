@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import SchemeCard from '../components/SchemeCard';
-import { CATEGORY_FILTERS } from '../data';
+import { CATEGORY_FILTERS, API_URL } from '../data';
 
 export default function SchemesView({ onApply, stateFilter }) {
 	const [schemes, setSchemes] = useState([]);
 	const [cat, setCat] = useState('All');
 	useEffect(() => {
-		fetch(`https://kite-3cun.onrender.com/api/schemes?state=${stateFilter}`)
+		fetch(`${API_URL}/api/schemes?state=${stateFilter}`)
 			.then(res => res.json())
 			.then(data => setSchemes(data));
 	}, [stateFilter]);

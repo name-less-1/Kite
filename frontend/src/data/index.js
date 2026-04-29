@@ -1,3 +1,7 @@
+export const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+  ? 'http://localhost:5000' 
+  : 'https://kite-3cun.onrender.com';
+
 export const SCHEMES = [
   { id:1,  category:'Students',        ministry:'Ministry of Education',        title:'PM Scholarship Scheme',        benefit:'₹25,000 / Year',             eligibility:'BTech / BSc Students',            state:'National', tag:'Scholarship',   docs:['Aadhar Card','Marksheet (10th & 12th)','Income Certificate','Bank Passbook','College ID'],                 portal:'https://scholarships.gov.in' },
   { id:2,  category:'Women',           ministry:'Ministry of WCD',              title:'Mudra Loan for Women',          benefit:'₹10 Lakh Loan',              eligibility:'Women Entrepreneurs',              state:'National', tag:'Loan',          docs:['Aadhar Card','PAN Card','Business Plan','Bank Statement','Residence Proof'],                                 portal:'https://mudra.org.in' },
@@ -28,8 +32,8 @@ export const LAWS = [
 ];
 
 export const ISRO_DATA = [
-  { mission:'Gaganyaan',       status:'2025 Launch',   detail:"India's first crewed spaceflight — 3 astronauts to 400 km orbit",                        icon:'🚀' },
-  { mission:'Chandrayaan-4',   status:'2026 Planned',  detail:'Lunar sample return mission — bringing moon rock back to Earth for analysis',              icon:'🌕' },
+  { mission:'Gaganyaan',       status:'2026 Launch',   detail:"India's first crewed spaceflight — 3 astronauts to 400 km orbit",                        icon:'🚀' },
+  { mission:'Chandrayaan-4',   status:'2027 Planned',  detail:'Lunar sample return mission — bringing moon rock back to Earth for analysis',              icon:'🌕' },
   { mission:'NISAR Satellite', status:'Launched 2024', detail:'NASA-ISRO joint Earth observation satellite for climate & disaster monitoring',            icon:'🛰️' },
   { mission:'Shukrayaan-1',    status:'2028 Planned',  detail:"India's Venus orbiter — studying the planet's thick toxic atmosphere",                     icon:'🪐' },
   { mission:'Aditya-L1',       status:'Operational',   detail:"Solar observation satellite studying sun's corona from the Lagrange-1 point",              icon:'☀️' },
@@ -52,11 +56,11 @@ export const DEFENSE_DATA = [
 ];
 
 export const RECRUITMENT = [
-  { exam:'NDA I 2025',    date:'Apr 13, 2025', status:'Closed'    },
-  { exam:'CDS I 2025',    date:'Apr 13, 2025', status:'Closed'    },
-  { exam:'NDA II 2025',   date:'Sep 2025',     status:'Open Soon' },
+  { exam:'NDA I 2026',    date:'Apr 13, 2026', status:'Closed'    },
+  { exam:'CDS I 2026',    date:'Apr 13, 2026', status:'Closed'    },
+  { exam:'NDA II 2026',   date:'Sep 2026',     status:'Open Soon' },
   { exam:'Agniveer Army', date:'Rolling',      status:'Open'      },
-  { exam:'Agniveer Navy', date:'May 2025',     status:'Open'      },
+  { exam:'Agniveer Navy', date:'May 2026',     status:'Open'      },
 ];
 
 export const CITY_ALERTS = [

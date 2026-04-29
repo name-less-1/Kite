@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import { JOB_CATEGORIES } from '../data';
-
-const API = 'https://kite-3cun.onrender.com';
+import { JOB_CATEGORIES, API_URL } from '../data';
 
 const PORTALS = [
   { name:'NCS Portal',         url:'https://www.ncs.gov.in',            desc:'National Career Service — job listings across India' },
@@ -17,7 +15,7 @@ export default function JobsView({ onApply }) {
   const [jobs, setJobs]           = useState([]);
 
   useEffect(() => {
-    fetch(`${API}/api/jobs?category=${activeJob}`)
+    fetch(`${API_URL}/api/jobs?category=${activeJob}`)
       .then(r => r.json())
       .then(data => setJobs(data))
       .catch(() => {});
