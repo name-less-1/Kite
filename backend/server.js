@@ -14,6 +14,7 @@ app.use('/api/laws',        require('./routes/laws'));
 app.use('/api/complaints',  require('./routes/complaints'));
 app.use('/api/jobs',        require('./routes/jobs'));
 app.use('/api/alerts',      require('./routes/alerts'));
+app.use('/api/auth',        require('./routes/auth'));
 
 app.get('/', (req, res) => res.json({ message: 'KITE API v2 running' }));
 

@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import { COMPLAINTS, STATUS_COLOR } from '../data';
+import { useState, useEffect } from 'react';
+import { STATUS_COLOR } from '../data';
+
+const API = 'https://kite-3cun.onrender.com';
 
 const WASTE_BINS = [
   { color:'#16a34a', bg:'#14532d', border:'#166534', label:'Green Bin', title:'Wet / Organic', items:['Food scraps & leftovers','Vegetable & fruit peels','Leaves & garden waste','Eggshells','Tea & coffee grounds'] },
@@ -17,17 +19,49 @@ function Tab({ label, active, onClick }) {
   );
 }
 
-export default function JanSevaView() {
-  const [tab, setTab]       = useState('waste');
-  const [step, setStep]     = useState(1);
-  const [issueType, setIT]  = useState('');
-  const [desc, setDesc]     = useState('');
-  const [gps, setGps]       = useState(false);
-  const [filed, setFiled]   = useState(false);
-  const [ticketId]          = useState('TKT-' + (2400 + Math.floor(Math.random() * 100)));
-  const [expanded, setExp]  = useState(null);
+export default function JanSevaView({ user, token, onLoginRequest }) {
+  const [tab, setTab]           = useState('waste');
+  const [step, setStep]         = useState(1);
+  const [issueType, setIT]      = useState('');
+  const [desc, setDesc]         = useState('');
+  const [location, setLocation] = useState('');
+  const [gps, setGps]           = useState(false);
+  const [filed, setFiled]       = useState(false);
+  const [ticketId, setTicketId] = useState('');
+  const [expanded, setExp]      = useState(null);
+  const [complaints, setComplaints] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError]       = useState('');
 
-  const reset = () => { setStep(1); setIT(''); setDesc(''); setGps(false); setFiled(false); };
+  useEffect(() => {
+    fetch(`${API}/api/complaints`)
+      .then(r => r.json())
+      .then(data => setComplaints(data))
+      .catch(() => {});
+  }, [filed]);
+
+  const reset = () => { setStep(1); setIT(''); setDesc(''); setLocation(''); setGps(false); setFiled(false); setError(''); };
+
+  const handleSubmit = async () => {
+    if (!user) return onLoginRequest();
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await fetch(`${API}/api/complaints`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ category: issueType, location: location || 'Location not provided', description: desc }),
+      });
+      const data = await res.json();
+      if (!res.ok) return setError(data.message || 'Submission failed');
+      setTicketId(data.id);
+      setFiled(true);
+    } catch {
+      setError('Something went wrong. Try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div style={{ padding:'20px 20px 40px' }}>
@@ -74,6 +108,14 @@ export default function JanSevaView() {
         <div style={{ maxWidth:500 }}>
           {!filed ? (
             <>
+              {/* Login prompt if not logged in */}
+              {!user && (
+                <div style={{ background:'#1c1400', border:'1px solid #f59e0b44', borderRadius:10, padding:14, marginBottom:20, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                  <span style={{ fontSize:13, color:'#d97706' }}>Sign in to file a complaint</span>
+                  <button onClick={onLoginRequest} style={{ background:'#f59e0b', border:'none', borderRadius:6, padding:'6px 14px', fontWeight:700, fontSize:12, color:'#09090b', cursor:'pointer' }}>Login</button>
+                </div>
+              )}
+
               <div style={{ display:'flex', alignItems:'center', marginBottom:24 }}>
                 {STEPS.map((s, i) => (
                   <div key={s} style={{ flex:1, display:'flex', alignItems:'center' }}>
@@ -87,6 +129,7 @@ export default function JanSevaView() {
                   </div>
                 ))}
               </div>
+
               {step === 1 && (
                 <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
                   {ISSUE_TYPES.map(t => (
@@ -97,10 +140,13 @@ export default function JanSevaView() {
                   ))}
                 </div>
               )}
+
               {step === 2 && (
                 <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
                   <div style={{ background:'#1c1c1e', border:'1px solid #3f3f46', borderRadius:8, padding:'8px 12px', fontSize:13, color:'#f59e0b', fontWeight:700 }}>Issue: {issueType}</div>
-                  <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Describe the issue and exact location…" rows={3}
+                  <input value={location} onChange={e => setLocation(e.target.value)} placeholder="Location (e.g. MG Road, Sector 4, Jammu)"
+                    style={{ background:'#18181b', border:'1px solid #3f3f46', borderRadius:8, padding:10, color:'#e4e4e7', fontSize:13, outline:'none' }} />
+                  <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Describe the issue…" rows={3}
                     style={{ background:'#18181b', border:'1px solid #3f3f46', borderRadius:8, padding:10, color:'#e4e4e7', fontSize:13, resize:'vertical', outline:'none' }} />
                   <div onClick={() => setGps(g => !g)} style={{ background:'#18181b', border:'1px solid #27272a', borderRadius:8, padding:12, display:'flex', alignItems:'center', gap:10, cursor:'pointer' }}>
                     <div style={{ width:18, height:18, border:`2px solid ${gps ? '#f59e0b' : '#3f3f46'}`, borderRadius:4, background: gps ? '#f59e0b' : 'transparent', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
@@ -108,30 +154,31 @@ export default function JanSevaView() {
                     </div>
                     <span style={{ fontSize:13 }}>📍 Share GPS Location</span>
                   </div>
-                  <div style={{ background:'#1c1c1e', border:'2px dashed #3f3f46', borderRadius:8, padding:24, textAlign:'center', cursor:'pointer' }}>
-                    <div style={{ fontSize:28, marginBottom:4 }}>📸</div>
-                    <div style={{ fontSize:13, color:'#71717a' }}>Tap to upload photo evidence</div>
-                  </div>
                   <div style={{ display:'flex', gap:8 }}>
                     <button onClick={() => setStep(1)} style={{ flex:1, background:'#18181b', border:'1px solid #3f3f46', borderRadius:8, padding:10, color:'#a1a1aa', fontSize:13, cursor:'pointer' }}>← Back</button>
                     <button onClick={() => setStep(3)} style={{ flex:2, background:'#f59e0b', border:'none', borderRadius:8, padding:10, fontWeight:700, fontSize:13, color:'#09090b', cursor:'pointer' }}>Review →</button>
                   </div>
                 </div>
               )}
+
               {step === 3 && (
                 <div>
                   <div style={{ background:'#18181b', border:'1px solid #27272a', borderRadius:8, padding:14, marginBottom:16 }}>
                     <div style={{ fontSize:11, color:'#71717a', marginBottom:10, textTransform:'uppercase', letterSpacing:1 }}>Review Before Submitting</div>
-                    {[['Issue Type', issueType], ['GPS Shared', gps ? 'Yes' : 'No'], ['Description', desc || 'Not provided']].map(([k,v]) => (
+                    {[['Issue Type', issueType], ['Location', location || 'Not provided'], ['GPS Shared', gps ? 'Yes' : 'No'], ['Description', desc || 'Not provided'], ['Filed by', user ? user.name : 'Guest']].map(([k,v]) => (
                       <div key={k} style={{ display:'flex', justifyContent:'space-between', padding:'7px 0', borderBottom:'1px solid #27272a', fontSize:13, gap:10 }}>
                         <span style={{ color:'#71717a', flexShrink:0 }}>{k}</span>
                         <span style={{ fontWeight:600, textAlign:'right' }}>{v}</span>
                       </div>
                     ))}
                   </div>
+                  {error && <div style={{ background:'#7f1d1d', border:'1px solid #991b1b', borderRadius:8, padding:'8px 12px', fontSize:12, color:'#fca5a5', marginBottom:12 }}>{error}</div>}
                   <div style={{ display:'flex', gap:8 }}>
                     <button onClick={() => setStep(2)} style={{ flex:1, background:'#18181b', border:'1px solid #3f3f46', borderRadius:8, padding:10, color:'#a1a1aa', fontSize:13, cursor:'pointer' }}>← Back</button>
-                    <button onClick={() => setFiled(true)} style={{ flex:2, background:'#f59e0b', border:'none', borderRadius:8, padding:10, fontWeight:700, fontSize:13, color:'#09090b', cursor:'pointer' }}>Submit Report ✓</button>
+                    <button onClick={handleSubmit} disabled={submitting}
+                      style={{ flex:2, background:'#f59e0b', border:'none', borderRadius:8, padding:10, fontWeight:700, fontSize:13, color:'#09090b', cursor:'pointer', opacity: submitting ? 0.7 : 1 }}>
+                      {submitting ? 'Submitting...' : 'Submit Report ✓'}
+                    </button>
                   </div>
                 </div>
               )}
@@ -154,7 +201,7 @@ export default function JanSevaView() {
 
       {tab === 'tracker' && (
         <div style={{ maxWidth:560, display:'flex', flexDirection:'column', gap:10 }}>
-          {COMPLAINTS.map(c => {
+          {complaints.map(c => {
             const stepIdx = ['Pending','Assigned','Resolved'].indexOf(c.status);
             const isOpen  = expanded === c.id;
             return (
@@ -167,6 +214,7 @@ export default function JanSevaView() {
                     </div>
                     <div style={{ fontSize:14, fontWeight:700 }}>{c.category}</div>
                     <div style={{ fontSize:12, color:'#71717a', marginTop:2 }}>📍 {c.location} · {c.date}</div>
+                    {c.user && <div style={{ fontSize:11, color:'#52525b', marginTop:2 }}>Filed by: {c.user.name || 'Citizen'}</div>}
                   </div>
                   <span style={{ fontSize:14, color:'#52525b', transition:'transform 0.2s', transform: isOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
                 </div>
@@ -189,7 +237,7 @@ export default function JanSevaView() {
                         <span style={{ fontSize:20 }}>📷</span>
                         <div>
                           <div style={{ fontSize:12, fontWeight:700, color:'#10b981' }}>Resolution Photo Available</div>
-                          <div style={{ fontSize:11, color:'#6ee7b7' }}>Uploaded by Municipal Team on Apr 21</div>
+                          <div style={{ fontSize:11, color:'#6ee7b7' }}>Uploaded by Municipal Team</div>
                         </div>
                       </div>
                     )}

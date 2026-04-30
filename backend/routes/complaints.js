@@ -1,23 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const Complaint = require('../models/Complaint');
+const { protect } = require('../middleware/auth');
 
 // GET /api/complaints
 router.get('/', async (req, res, next) => {
   try {
     const { status } = req.query;
     const filter = status ? { status } : {};
-    const complaints = await Complaint.find(filter).sort({ createdAt: -1 });
+    const complaints = await Complaint.find(filter).populate('user', 'name email').sort({ createdAt: -1 });
     res.json(complaints);
-  } catch (err) {
-    next(err);
-  }
+  } catch (err) { next(err); }
 });
 
-// POST /api/complaints — submit a new complaint
-router.post('/', async (req, res, next) => {
+// POST /api/complaints — protected, user must be logged in
+router.post('/', protect, async (req, res, next) => {
   try {
-    const { category, location } = req.body;
+    const { category, location, description } = req.body;
     if (!category || !location) {
       return res.status(400).json({ message: 'category and location are required' });
     }
@@ -26,13 +25,21 @@ router.post('/', async (req, res, next) => {
       id: `TKT-${2400 + count + 1}`,
       category,
       location,
+      description: description || '',
       status: 'Pending',
+      user: req.user._id,
       date: new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }),
     });
     res.status(201).json(complaint);
-  } catch (err) {
-    next(err);
-  }
+  } catch (err) { next(err); }
+});
+
+// GET /api/complaints/mine — get complaints filed by logged in user
+router.get('/mine', protect, async (req, res, next) => {
+  try {
+    const complaints = await Complaint.find({ user: req.user._id }).sort({ createdAt: -1 });
+    res.json(complaints);
+  } catch (err) { next(err); }
 });
 
 module.exports = router;
