@@ -1,16 +1,25 @@
-import { useState } from 'react';
-import { LAWS } from '../data';
+import { useState, useEffect } from 'react';
 
+const API = 'https://kite-3cun.onrender.com';
 const STATUS_STYLE = { 'Enacted':{bg:'#064e3b',color:'#10b981'}, 'In Force':{bg:'#064e3b',color:'#10b981'}, 'Active':{bg:'#1e3a5f',color:'#60a5fa'} };
 
 export default function LegislativeView() {
   const [expanded, setExpanded] = useState(null);
+  const [laws, setLaws]         = useState([]);
+
+  useEffect(() => {
+    fetch(`${API}/api/laws`)
+      .then(r => r.json())
+      .then(data => setLaws(data))
+      .catch(() => {});
+  }, []);
+
   return (
     <div style={{ padding:'20px 20px 40px' }}>
       <h2 style={{ margin:'0 0 4px', fontSize:20, fontWeight:800 }}>Legislative Tracker</h2>
       <p style={{ margin:'0 0 24px', color:'#71717a', fontSize:12 }}>New Indian laws explained in plain language — no legal jargon, no confusion.</p>
       <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-        {LAWS.map(law => {
+        {laws.map(law => {
           const st   = STATUS_STYLE[law.status] || { bg:'#451a03', color:'#f59e0b' };
           const open = expanded === law.id;
           return (
