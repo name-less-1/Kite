@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   email:    { type: String, required: true, unique: true, lowercase: true, trim: true },
   password: { type: String, required: true, minlength: 6 },
   state:    { type: String, default: 'National' },
+  isAdmin:  { type: Boolean, default: false },
 }, { timestamps: true });
 
 userSchema.pre('save', async function(next) {

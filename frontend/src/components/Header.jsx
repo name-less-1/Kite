@@ -1,4 +1,4 @@
-export default function Header({ lang, setLang, onSearch, onHome, user, onLogin, onLogout }) {
+export default function Header({ lang, setLang, onSearch, onHome, user, onLogin, onLogout, onAdmin }) {
   return (
     <header style={{ height:52, borderBottom:'1px solid #27272a', display:'flex', alignItems:'center', padding:'0 20px', gap:12, flexShrink:0, background:'#09090b' }}>
       <div style={{ flex:1, display:'flex', alignItems:'center', gap:10, minWidth:0 }}>
@@ -33,6 +33,12 @@ export default function Header({ lang, setLang, onSearch, onHome, user, onLogin,
             {user.name.charAt(0).toUpperCase()}
           </div>
           <span style={{ fontSize:12, color:'#a1a1aa', maxWidth:80, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{user.name}</span>
+          {user.isAdmin && (
+            <button onClick={onAdmin}
+              style={{ background:'#18181b', border:'1px solid #3f3f46', borderRadius:6, padding:'4px 10px', color:'#f59e0b', fontSize:11, cursor:'pointer', fontWeight:700 }}>
+              Admin
+            </button>
+          )}
           <button onClick={onLogout}
             style={{ background:'none', border:'1px solid #3f3f46', borderRadius:6, padding:'4px 10px', color:'#71717a', fontSize:11, cursor:'pointer' }}>
             Out

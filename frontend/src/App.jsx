@@ -15,6 +15,7 @@ import RakshaView      from './views/RakshaView';
 import LegislativeView from './views/LegislativeView';
 import LoginView       from './views/LoginView';
 import RegisterView    from './views/RegisterView';
+import AdminView       from './views/AdminView';
 
 export default function App() {
   const [activeNav,   setActiveNav]  = useState('home');
@@ -64,6 +65,7 @@ export default function App() {
       case 'antariksh':   return <AntarikshView />;
       case 'raksha':      return <RakshaView />;
       case 'legislative': return <LegislativeView />;
+      case 'admin':       return <AdminView token={token} />;
       default:            return <HomeView        setActive={setActiveNav} onApply={setApply} />;
     }
   };
@@ -89,6 +91,7 @@ export default function App() {
           user={user}
           onLogin={() => setAuthView('login')}
           onLogout={handleLogout}
+          onAdmin={() => { setAuthView(null); setActiveNav('admin'); }}
         />
         {!authView && <StatePills selected={stateFilter} onSelect={setStateFilt} />}
         {!authView && <CityAlert />}
