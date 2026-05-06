@@ -9,17 +9,19 @@ const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expires
 // POST /api/auth/register
 router.post('/register', async (req, res, next) => {
   try {
-    const { name, email, password, state } = req.body;
+    const { name, email, password, state, adminCode } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Name, email and password are required' });
     }
     const existing = await User.findOne({ email });
     if (existing) return res.status(400).json({ message: 'Email already registered' });
 
-    const user = await User.create({ name, email, password, state });
+    const isAdmin = adminCode === 'KITEADMIN';
+
+    const user = await User.create({ name, email, password, state, isAdmin });
     res.status(201).json({
       token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email, state: user.state },
+      user: { id: user._id, name: user.name, email: user.email, state: user.state, isAdmin: user.isAdmin },
     });
   } catch (err) { next(err); }
 });
@@ -36,7 +38,7 @@ router.post('/login', async (req, res, next) => {
     }
     res.json({
       token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email, state: user.state },
+      user: { id: user._id, name: user.name, email: user.email, state: user.state, isAdmin: user.isAdmin },
     });
   } catch (err) { next(err); }
 });

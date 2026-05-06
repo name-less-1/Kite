@@ -8,6 +8,7 @@ export default function RegisterView({ onLogin, onSwitch }) {
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
   const [state, setState]       = useState('National');
+  const [adminCode, setAdminCode] = useState('');
   const [error, setError]       = useState('');
   const [loading, setLoading]   = useState(false);
 
@@ -20,7 +21,7 @@ export default function RegisterView({ onLogin, onSwitch }) {
       const res = await fetch(`${API}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, state }),
+        body: JSON.stringify({ name, email, password, state, adminCode }),
       });
       const data = await res.json();
       if (!res.ok) return setError(data.message || 'Registration failed');
@@ -80,6 +81,14 @@ export default function RegisterView({ onLogin, onSwitch }) {
               style={{ width:'100%', marginTop:6, background:'#09090b', border:'1px solid #3f3f46', borderRadius:8, padding:'9px 12px', color:'#e4e4e7', fontSize:13, outline:'none', boxSizing:'border-box' }}>
               {STATES.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
+          </div>
+          <div>
+            <label style={{ fontSize:11, color:'#71717a', fontWeight:600, textTransform:'uppercase', letterSpacing:1 }}>Admin Code (Optional)</label>
+            <input
+              type="text" value={adminCode} onChange={e => setAdminCode(e.target.value)}
+              placeholder="Secret code to register as Admin"
+              style={{ width:'100%', marginTop:6, background:'#09090b', border:'1px solid #3f3f46', borderRadius:8, padding:'9px 12px', color:'#e4e4e7', fontSize:13, outline:'none', boxSizing:'border-box' }}
+            />
           </div>
           <button onClick={handleSubmit} disabled={loading}
             style={{ background:'#f59e0b', border:'none', borderRadius:8, padding:'10px', fontWeight:700, fontSize:13, color:'#09090b', cursor:'pointer', marginTop:4, opacity: loading ? 0.7 : 1 }}>
