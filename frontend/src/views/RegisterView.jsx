@@ -83,7 +83,7 @@ export default function RegisterView({ onLogin, onSwitch }) {
           <div>
             <label style={{ fontSize:11, color:'#71717a', fontWeight:600, textTransform:'uppercase', letterSpacing:1 }}>Admin Code (Optional)</label>
             <input
-              type="text" value={adminCode} onChange={e => setAdminCode(e.target.value)}
+              type="password" value={adminCode} onChange={e => setAdminCode(e.target.value)}
               placeholder="Secret code to register as Admin"
               style={{ width:'100%', marginTop:6, background:'#09090b', border:'1px solid #3f3f46', borderRadius:8, padding:'9px 12px', color:'#e4e4e7', fontSize:13, outline:'none', boxSizing:'border-box' }}
             />
